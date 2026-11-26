@@ -1,0 +1,19 @@
+name: attempt-ctl
+on: workflow_dispatch
+permissions: {}
+jobs:
+  sentinel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: attempt-gated sentinel
+        run: |
+          echo "GITHUB_RUN_ATTEMPT=$GITHUB_RUN_ATTEMPT"
+          echo "STABLE_JOB_SENTINEL_7b21c9 attempt=$GITHUB_RUN_ATTEMPT"
+          if [ "$GITHUB_RUN_ATTEMPT" = "1" ]; then echo "SENTINEL_C1_9f3a4d_ATTEMPT1_ONLY"; fi
+  failing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: fail on attempt 1
+        run: |
+          echo "FAILJOB_SENTINEL_c4d2e8 attempt=$GITHUB_RUN_ATTEMPT"
+          if [ "$GITHUB_RUN_ATTEMPT" = "1" ]; then exit 1; fi
